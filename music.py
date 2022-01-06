@@ -1,5 +1,5 @@
 import sys
-from gi.repository import GObject, GLib
+# from git.repository import GObject, GLib
 
 # to walk the filesystem
 import os
@@ -170,7 +170,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
          self.playlist_manager.delete_playlist(playlist)
          self.refresh_playlists_list()
          # refresh the list
-         print "Playlist {0} has been deleted.".format(playlist)
+         print ("Playlist {0} has been deleted.".format(playlist))
 
 
      def rename_playlist(self, position):
@@ -186,19 +186,19 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
              self.playlist_manager.rename_playlist(playlist, str(new_name))
              self.refresh_playlists_list()
              # refresh the list
-             print "Playlist {0} has been renamed to {1}.".format(playlist, new_name)
+             print ("Playlist {0} has been renamed to {1}.".format(playlist, new_name))
 
 
      def parse_playlists_songs(self):
-        print "About to parse all the playlists.."
+        print ("About to parse all the playlists..")
         self.playlists = self.playlist_manager.populate_playlists()
-        print "Updated playlists info with all the songs"
+        print ("Updated playlists info with all the songs")
 
 
      def add_to_playlist(self, action):
         # get the song to be added to the playlist
         song = self.songsListWidget.currentItem()
-        print "Current song: {0} will be added to {1}".format(song.get_media_path(), action.iconText())
+        print ("Current song: {0} will be added to {1}".format(song.get_media_path(), action.iconText()))
 
         # get data to add
         song_path = song.get_media_path()
@@ -209,7 +209,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.playlists[playlist_name]["songs_paths"].append(song_path)
         self.playlists[playlist_name]["modified"] = 1
 
-        print "Playlist {0} has {1} songs now".format(action.iconText(), len(self.playlists[playlist_name]["songs"]))
+        print ("Playlist {0} has {1} songs now".format(action.iconText(), len(self.playlists[playlist_name]["songs"])))
 
 
      def refresh_playlists_list(self):
@@ -221,7 +221,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
      def remove_from_playlist(self, action):
          song = self.songsListWidget.currentItem()
-         print "Current song: {0} will removed from {1}".format(song.get_media_path(), action.iconText())
+         print ("Current song: {0} will removed from {1}".format(song.get_media_path(), action.iconText()))
 
          # get data to remove
          song_path = song.get_media_path()
@@ -237,7 +237,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
          # not managed by pyqt anymore, manually deleted
          del to_be_removed
          #self.listWidget.takeItem(self.listWidget.row(item))
-         print "Playlist {0} has {1} songs now".format(action.iconText(), len(self.playlists[playlist_name]["songs"]))
+         print ("Playlist {0} has {1} songs now".format(action.iconText(), len(self.playlists[playlist_name]["songs"])))
 
 
      # Triggered when "Add Playlist button is pressed"
@@ -252,7 +252,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
              # refresh the playlists lists
              self.refresh_playlists_list()
          else:
-             print "No name inserted for the new playlist"
+             print ("No name inserted for the new playlist")
 
 
      # called when a pipeline is set to PLAYING.
@@ -267,7 +267,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
      # Called when elapsedTimeSlider has been released
      def seek_song_position(self):
-         print "New value {0}".format(self.elapsedTimeSlider.value())
+         print ("New value {0}".format(self.elapsedTimeSlider.value()))
          self.player.seek_song_position(self.elapsedTimeSlider.value())
 
 
@@ -322,7 +322,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                       self.playlists[playlist_name]["songs"],
                       self.playlists[playlist_name]["songs_paths"])
          else:
-            print "No song in the playlist"
+            print ("No song in the playlist")
 
          #TODO: make 'populate_song_list' to handle generic lists
 
@@ -377,7 +377,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
 
      def play_song(self, song):
-         print "Selected {}".format(song.get_media_path())
+         print ("Selected {}".format(song.get_media_path()))
          # Get the current index. It will be incremented later if needed
          self.currentSongIndex = self.songsListWidget.row(song)
          self.player.load_audio(song.get_media_path())
@@ -389,7 +389,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
          # used to select the next song
          self.currentSongIndex += 1
          self.next_song = self.songsListWidget.item(self.currentSongIndex)
-         print "Next song {}".format(self.next_song.get_media_path())
+         print ("Next song {}".format(self.next_song.get_media_path()))
          self.player.load_audio(self.next_song.get_media_path())
          self.songsListWidget.setCurrentRow(self.currentSongIndex)
 
@@ -419,12 +419,12 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
          if filepath:
              self.player.load_audio(str(filepath))
          else:
-            print "Cannot load any song.."
+            print ("Cannot load any song..")
 
      # Overload the closeEvent callback
      def closeEvent(self, *args, **kwargs):
         super(QtGui.QMainWindow, self).closeEvent(*args, **kwargs)
-        print "Exiting, saving data.."
+        print ("Exiting, saving data..")
         # save the playlist to a file if needed
         self.playlist_manager.save_playlists(self.playlists)
 
